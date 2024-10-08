@@ -28,12 +28,27 @@ class Quiz {
   }
 
   checkAnswer (answer) {
-    if (answer) {
+    if (this.getQuestion().answer === answer) {
       this.correctAnswers += 1
     }
   }
 
   hasEnded () {
     return this.currentQuestionIndex >= this.questions.length
+  }
+  filterQuestionsByDifficulty (difficulty) {
+    if (typeof difficulty !== 'number' || difficulty < 1 || difficulty > 3) {
+      return
+    }
+    const filteredQuestions = []
+    if (1 <= difficulty <= 3) {
+      for (let i = 0; i < this.questions.length; i++) {
+        if (this.questions[i].difficulty === difficulty) {
+          filteredQuestions.push(this.questions[i])
+        }
+      }
+
+      this.questions = filteredQuestions
+    }
   }
 }

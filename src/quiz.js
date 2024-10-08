@@ -40,15 +40,33 @@ class Quiz {
     if (typeof difficulty !== 'number' || difficulty < 1 || difficulty > 3) {
       return
     }
-    const filteredQuestions = []
-    if (1 <= difficulty <= 3) {
-      for (let i = 0; i < this.questions.length; i++) {
-        if (this.questions[i].difficulty === difficulty) {
-          filteredQuestions.push(this.questions[i])
-        }
-      }
 
-      this.questions = filteredQuestions
-    }
+    this.questions = this.questions.filter(
+      question => question.difficulty === difficulty
+    )
+  }
+  averageDifficulty () {
+    let total = this.questions.reduce((acc, cu) => {
+      return acc + cu.difficulty
+    }, 0)
+    return total / this.questions.length
   }
 }
+// Example questions array
+const questions = [
+  { question: 'What is 2 + 2?', answer: '4', difficulty: 1 },
+  {
+    question: 'What is the capital of France?',
+    answer: 'Paris',
+    difficulty: 2
+  },
+  { question: 'What is the square root of 144?', answer: '12', difficulty: 3 },
+  {
+    question: 'What is the chemical symbol for water?',
+    answer: 'H2O',
+    difficulty: 2
+  },
+  { question: 'Who wrote "Hamlet"?', answer: 'Shakespeare', difficulty: 3 }
+]
+const quiz = new Quiz(questions, 10, 10)
+console.log('All questions:', quiz.questions)

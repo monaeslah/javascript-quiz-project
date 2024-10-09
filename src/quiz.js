@@ -34,7 +34,7 @@ class Quiz {
   }
 
   hasEnded () {
-    return this.currentQuestionIndex >= this.questions.length
+    return this.currentQuestionIndex >= this.questions.length - 1
   }
   filterQuestionsByDifficulty (difficulty) {
     if (typeof difficulty !== 'number' || difficulty < 1 || difficulty > 3) {
@@ -52,21 +52,21 @@ class Quiz {
     return total / this.questions.length
   }
 }
-// Example questions array
-const questions = [
-  { question: 'What is 2 + 2?', answer: '4', difficulty: 1 },
-  {
-    question: 'What is the capital of France?',
-    answer: 'Paris',
-    difficulty: 2
-  },
-  { question: 'What is the square root of 144?', answer: '12', difficulty: 3 },
-  {
-    question: 'What is the chemical symbol for water?',
-    answer: 'H2O',
-    difficulty: 2
-  },
-  { question: 'Who wrote "Hamlet"?', answer: 'Shakespeare', difficulty: 3 }
-]
-const quiz = new Quiz(questions, 10, 10)
-console.log('All questions:', quiz.questions)
+// // Example questions array
+// const questions = [
+//   { question: 'What is 2 + 2?', answer: '4', difficulty: 1 },
+//   {
+//     question: 'What is the capital of France?',
+//     answer: 'Paris',
+//     difficulty: 2
+//   },
+//   { question: 'What is the square root of 144?', answer: '12', difficulty: 3 },
+//   {
+//     question: 'What is the chemical symbol for water?',
+//     answer: 'H2O',
+//     difficulty: 2
+//   },
+//   { question: 'Who wrote "Hamlet"?', answer: 'Shakespeare', difficulty: 3 }
+// ]
+// const quiz = new Quiz(questions, 10, 10)
+// console.log('All questions:', quiz.questions)

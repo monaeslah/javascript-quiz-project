@@ -58,22 +58,35 @@ document.addEventListener('DOMContentLoaded', () => {
   /************  SHOW INITIAL CONTENT  ************/
 
   // Convert the time remaining in seconds to minutes and seconds, and pad the numbers with zeros if needed
-  const minutes = Math.floor(quiz.timeRemaining / 60)
-    .toString()
-    .padStart(2, '0')
-  const seconds = (quiz.timeRemaining % 60).toString().padStart(2, '0')
+  const upDateTime = () => {
+    const minutes = Math.floor(quiz.timeRemaining / 60)
+      .toString()
+      .padStart(2, '0')
+    const seconds = (quiz.timeRemaining % 60).toString().padStart(2, '0')
 
-  // Display the time remaining in the time remaining container
-  const timeRemainingContainer = document.getElementById('timeRemaining')
-  timeRemainingContainer.innerText = `${minutes}:${seconds}`
-
+    // Display the time remaining in the time remaining container
+    const timeRemainingContainer = document.getElementById('timeRemaining')
+    timeRemainingContainer.innerText = `${minutes}:${seconds}`
+  }
+  upDateTime()
   // Show first question
   showQuestion()
 
   /************  TIMER  ************/
 
   let timer
-
+  const timerUp = () => {
+    timer = setInterval(() => {
+      if (quiz.timeRemaining > 0) {
+        quiz.timeRemaining -= 1
+        upDateTime()
+      } else if (quiz.timeRemaining <= 0) {
+        clearInterval(timer)
+        showResults()
+      }
+    }, 1000)
+  }
+  timerUp()
   /************  EVENT LISTENERS  ************/
 
   nextButton.addEventListener('click', nextButtonHandler)
@@ -87,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function showQuestion () {
     // If the quiz has ended, show the results
-    console.log('reset second time', questionContainer.innerText)
+
     if (quiz.hasEnded()) {
       showResults()
       return
@@ -159,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
     //
     // 1. Get all the choice elements. You can use the `document.querySelectorAll()` method.
     const allChoices = document.querySelectorAll('input[name="choice"]')
-    console.log(allChoices)
 
     // 2. Loop through all the choice elements and check which one is selected
     // Hint: Radio input elements have a property `.checked` (e.g., `element.checked`).
@@ -197,8 +209,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function resetButtonHandler () {
-    console.log('quiz', quiz)
-
+    quiz.timeRemaining = quizDuration
+    upDateTime()
+    clearInterval(timer)
+    timerUp()
     quiz.currentQuestionIndex = 0
     correctAnswers = 0
     quizView.style.display = 'block'
